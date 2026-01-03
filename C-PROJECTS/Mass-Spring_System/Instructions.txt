@@ -1,0 +1,4 @@
+The program makes use of the raylib library, in c, to demostrate a simple horizontal system with an oscillating mass attached to a spring.
+
+The inspiration for this project was taken from a video on youtube, by a youtuber with youtube channel titled "Daniel Hirsch".
+Video link: https://youtu.be/x0-4R-L8I_U?si=HagwYHpCcM0HMEpN
