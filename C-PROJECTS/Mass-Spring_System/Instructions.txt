@@ -2,3 +2,18 @@ The program makes use of the raylib library, in c, to demostrate a simple horizo
 
 The inspiration for this project was taken from a video on youtube, by a youtuber with youtube channel titled "Daniel Hirsch".
 Video link: https://youtu.be/x0-4R-L8I_U?si=HagwYHpCcM0HMEpN
+
+
+Compilation Instructions:
+
+1. First, open the mingw64 terminal.
+2. Second, navigate to the folder where the .c file has been saved/stored.
+3. Third, run the command for compilation, given below.
+4. Fourth and last, run the command to run the program, given below.
+
+For Reference:
+File has been named as "main.c".
+Output .exe file has been named as "app".
+
+Compilation Command:  gcc main.c -o app $(pkg-config --cflags --libs raylib)
+Run Command: ./app
