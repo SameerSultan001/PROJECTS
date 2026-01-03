@@ -1,0 +1,16 @@
+The program makes use of the raylib library, in c, to demostrate a simple vertical hanging pendulum system, displaced to a particular max angle, with an oscillating mass attached to a string.
+
+
+Compilation Instructions:
+
+1. First, open the mingw64 terminal.
+2. Second, navigate to the folder where the .c file has been saved/stored.
+3. Third, run the command for compilation, given below.
+4. Fourth and last, run the command to run the program, given below.
+
+For Reference:
+File has been named as "pendulum.c".
+Output .exe file has been named as "pendulum".
+
+Compilation Command:  gcc pendulum.c -o pendulum $(pkg-config --cflags --libs raylib)
+Run Command: ./pendulum
