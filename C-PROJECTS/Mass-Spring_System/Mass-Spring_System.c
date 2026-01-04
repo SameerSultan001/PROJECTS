@@ -4,18 +4,18 @@
 
 #define WIDTH 900
 #define HEIGHT 600
-#define REC_LENGTH 50
+#define REC_LENGTH 100
 #define GROUND_Y (HEIGHT*0.6)
 #define GROUND_THICKNESS 5
 #define FPS 120
 
-#define NUM_SPRING_ELEMENTS 20
-#define SPRING_ELEMENT_LENGTH 40
+#define NUM_SPRING_ELEMENTS 40
+#define SPRING_ELEMENT_LENGTH 50
 #define SPRING_ELEMENT_THICKNESS 3
 
-#define AMPLITUDE 150
+#define AMPLITUDE 180
 #define PERIOD 0.8 //seconds to complete one full cycle
-#define DAMPING_COEFFECIENT 0
+#define DAMPING_COEFFECIENT 0.2
 
 
 int main(void)
@@ -68,12 +68,12 @@ int main(void)
         for(i = 0; i < NUM_SPRING_ELEMENTS; i++) //this for loop is just for the spring elements, based on the x position of the rectangle
 		{
         	if(i%2 == 0){ //for spring elements that look like "/"
-        		springElementStartPos = (Vector2){i*dx, GROUND_Y - REC_LENGTH/2}; //start for these is always the ground
-        		springElementEndPos = (Vector2){(i+1)*dx, GROUND_Y - sqrt( pow(SPRING_ELEMENT_LENGTH,2) - pow(dx,2) ) - REC_LENGTH/2};	
+        		springElementStartPos = (Vector2){i*dx, GROUND_Y - REC_LENGTH/2 + SPRING_ELEMENT_LENGTH/2}; //start for these is always the ground
+        		springElementEndPos = (Vector2){(i+1)*dx, GROUND_Y - sqrt( pow(SPRING_ELEMENT_LENGTH,2) - pow(dx,2) ) - REC_LENGTH/2 + SPRING_ELEMENT_LENGTH/2};	
 			}
 			else{ //for spring elements that look like "\"
-        		springElementStartPos = (Vector2){i*dx, GROUND_Y - sqrt( pow(SPRING_ELEMENT_LENGTH,2) - pow(dx,2) ) - REC_LENGTH/2};
-        		springElementEndPos = (Vector2){(i+1)*dx, GROUND_Y - REC_LENGTH/2}; //end for these is always the ground			
+        		springElementStartPos = (Vector2){i*dx, GROUND_Y - sqrt( pow(SPRING_ELEMENT_LENGTH,2) - pow(dx,2) ) - REC_LENGTH/2 + SPRING_ELEMENT_LENGTH/2};
+        		springElementEndPos = (Vector2){(i+1)*dx, GROUND_Y - REC_LENGTH/2 + SPRING_ELEMENT_LENGTH/2}; //end for these is always the ground			
 			}
 			DrawLineEx(springElementStartPos, springElementEndPos, SPRING_ELEMENT_THICKNESS, GRAY);
 		}
