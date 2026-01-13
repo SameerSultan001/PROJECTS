@@ -43,7 +43,6 @@ int main(void) {
 	
 	float dt = 0;
 	float t = 0; //t represents the time since the start of the simulation (from when the program is run)
-	float tY = 0;
 	
 	float x = 0 + RADIUS, y = 0 + RADIUS; //coordinates of the ball (red circle) initialized to be at the top left of the screen
 	
@@ -64,10 +63,10 @@ int main(void) {
 
 		
 		x = v * cos(angle) * t + RADIUS;
-		y = -(v*sin(angle)*tY - 0.5*GRAVITY*tY*tY) + (GROUND_Y - RADIUS);
+		y = -(v*sin(angle)*t - 0.5*GRAVITY*t*t) + (GROUND_Y - RADIUS);
 		
 		if(y >= GROUND_Y - RADIUS){
-			tY = 0;
+			t = 0;
 			y = GROUND_Y - RADIUS;
 		}
 		
@@ -75,7 +74,6 @@ int main(void) {
     	
     	t += (dt*timeScale);
     	
-    	tY += (dt*timeScale);
     	EndDrawing();
 	}
     
