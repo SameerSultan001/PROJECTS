@@ -1,0 +1,16 @@
+The program makes use of the raylib library, in c, to demostrate a simple repetitive projectile motion, asking first for the initial velocity of the ball's launch, along with the initial angle with the ground and the time scaling factor (speed factor).
+
+
+Compilation Instructions:
+
+1. First, open the mingw64 terminal.
+2. Second, navigate to the folder where the .c file has been saved/stored.
+3. Third, run the command for compilation, given below.
+4. Fourth and last, run the command to run the program, given below.
+
+For Reference:
+File has been named as "projectile.c".
+Output .exe file has been named as "projectile".
+
+Compilation Command:  gcc projectile.c -o projectile $(pkg-config --cflags --libs raylib)
+Run Command: ./projectile
