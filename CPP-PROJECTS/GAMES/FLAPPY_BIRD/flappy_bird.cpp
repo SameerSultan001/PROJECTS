@@ -2,7 +2,7 @@
 #include <string>
 #include <cmath>
 #include <vector>
-#include <cstdlib>
+#include <cstdlib>	// for rand() 
 #include "raylib.h"
 
 using namespace std;
@@ -17,17 +17,86 @@ using namespace std;
 
 struct RectCoordinates
 {
-	Vector2 topLeft;
-	Vector2 topRight;
-	Vector2 bottomLeft;
-	Vector2 bottomRight;
+    Vector2 topLeft;
+    Vector2 topRight;
+    Vector2 bottomRight;
+    Vector2 bottomLeft;
 };
 
-
-
-bool CheckCollisionRecsZ(RectCoordinates rect1, RectCoordinates rect2)
+// This function was written by ChatGPT:
+float Dot(Vector2 a, Vector2 b)
 {
-	
+    return a.x*b.x + a.y*b.y;
+}
+
+// This function was written by ChatGPT:
+Vector2 Normalize(Vector2 v)
+{
+    float len = sqrt(v.x*v.x + v.y*v.y);
+
+    if(len==0)
+        return {0,0};
+
+    return {v.x/len, v.y/len};
+}
+
+// This function was written by ChatGPT
+void Project(Vector2 axis, Vector2 points[4], float &min, float &max)
+{
+    min = Dot(points[0],axis);
+    max = min;
+
+    for(int i=1;i<4;i++)
+    {
+        float p = Dot(points[i],axis);
+
+        if(p<min) min=p;
+        if(p>max) max=p;
+    }
+}
+
+// This function was written by ChatGPT:
+bool CheckCollisionRecsZ(RectCoordinates A, RectCoordinates B)
+{
+    Vector2 a[4] =
+    {
+        A.topLeft,
+        A.topRight,
+        A.bottomRight,
+        A.bottomLeft
+    };
+
+    Vector2 b[4] =
+    {
+        B.topLeft,
+        B.topRight,
+        B.bottomRight,
+        B.bottomLeft
+    };
+
+    Vector2 axes[4];
+
+    axes[0] = Normalize({ -(a[1].y - a[0].y), a[1].x - a[0].x });
+
+    axes[1] = Normalize({ -(a[2].y - a[1].y), a[2].x - a[1].x });
+
+    axes[2] = Normalize({ -(b[1].y - b[0].y), b[1].x - b[0].x });
+
+    axes[3] = Normalize({ -(b[2].y - b[1].y), b[2].x - b[1].x });
+
+    for(int i=0;i<4;i++)
+    {
+        float minA,maxA;
+        float minB,maxB;
+
+        Project(axes[i],a,minA,maxA);
+        Project(axes[i],b,minB,maxB);
+
+        if(maxA < minB || maxB < minA)
+            return false;
+    }
+
+    return true;
 }
 
 
@@ -60,25 +129,63 @@ public:
 		jumpSound = LoadSound("jumpSound.mp3");
 	}
 	
+	
 	Rectangle GetRectangle() const
 	{
 		return rectangle;
 	}
 	
-	// Need to finish this up:
-	/*
+	// This function was written by ChatGPT:
 	RectCoordinates GetRectCoordinates() const
 	{
-		RectCoordinates temp;
-		
-		temp.topLeft = coordinate;
-		temp.topRight = {coordinate.x + (length * cos(0.4*atan(velocity/300.0))), coordinate.y - (length * sin(0.4*atan(velocity/300.0)))};
-		temp.bottomLeft = 
-		temp.bottomRight = 
-		
-		return temp;
+	    RectCoordinates rect;
+	
+	    float angle = 0.4f * atan(velocity / 300.0);
+	
+	    float c = cos(angle);
+	    float s = sin(angle);
+	
+	    Vector2 center =
+	    {
+	        rectangle.x,
+	        rectangle.y
+	    };
+	   
+	
+	    Vector2 local[4] =
+	    {
+	        {-length/2.0f, -width/2.0f},
+	        { length/2.0f, -width/2.0f},
+	        { length/2.0f,  width/2.0f},
+	        {-length/2.0f,  width/2.0f}
+	    };
+	
+	    Vector2 world[4];
+	
+	    for(int i=0;i<4;i++)
+	    {
+	        world[i].x = center.x + local[i].x*c - local[i].y*s;
+	        world[i].y = center.y + local[i].x*s + local[i].y*c;
+	    }
+	
+	    rect.topLeft     = world[0];
+	    rect.topRight    = world[1];
+	    rect.bottomRight = world[2];
+	    rect.bottomLeft  = world[3];
+	
+	    return rect;
 	}
-	*/
+	
+	
+	void Reset()
+	{
+		coordinate.x = WIDTH/2;
+		coordinate.y = HEIGHT/2;
+		
+		rectangle = {coordinate.x, coordinate.y, length, width};
+		
+		velocity = 0.0;		
+	}
 	
 	void Update()
 	{
@@ -98,9 +205,10 @@ public:
 	
 	void Draw()
 	{
-		DrawRectangle(coordinate.x, coordinate.y, length, width, YELLOW);	// Without angle
+		//DrawRectangle(coordinate.x, coordinate.y, length, width, YELLOW);	// Without angle
 			
-		// DrawRectanglePro(rectangle, {rectangle.width / 2.0f, rectangle.height / 2.0f}, 0.4*(180.0f/M_PI)*atan(velocity/300.0), YELLOW);
+		DrawRectanglePro(rectangle, {rectangle.width / 2.0f, rectangle.height / 2.0f}, 0.4*(180.0f/M_PI)*atan(velocity/300.0), YELLOW);
+		
 	}
 	
 	~Bird()
@@ -158,6 +266,7 @@ public:
 		}
 	}
 	
+	/*
 	Rectangle GetLowerRectangle() const
 	{
 		Rectangle temp = {coordinate.x, coordinate.y, (float)width, (float)height};
@@ -169,6 +278,35 @@ public:
 		Rectangle temp = {coordinate.x, 0, (float)width, (float)HEIGHT*0.8 - (float)height};
 		return temp;
 	}
+	*/
+	
+	// This function was written by ChatGPT:
+	RectCoordinates GetLowerRectCoordinates() const
+	{
+	    RectCoordinates r;
+	
+	    r.topLeft     = {coordinate.x, coordinate.y};
+	    r.topRight    = {coordinate.x + width, coordinate.y};
+	    r.bottomRight = {coordinate.x + width, coordinate.y + height};
+	    r.bottomLeft  = {coordinate.x, coordinate.y + height};
+	
+	    return r;
+	}
+	
+	// This function was written by ChatGPT:
+	RectCoordinates GetUpperRectCoordinates() const
+	{
+	    float h = HEIGHT * 0.8f - height;
+	
+	    RectCoordinates r;
+	
+	    r.topLeft     = {coordinate.x, 0};
+	    r.topRight    = {coordinate.x + width, 0};
+	    r.bottomRight = {coordinate.x + width, h};
+	    r.bottomLeft  = {coordinate.x, h};
+	
+	    return r;
+	}	
 	
 	void Update()
 	{
@@ -205,6 +343,7 @@ int main(void)
 	bool GameOverSoundPlayed = false;
 	
 	int score = 0;
+	int highScore = 0;
 	string score_string;
 	
 	double timeElapsed = 0.0;
@@ -224,7 +363,7 @@ int main(void)
 	Bird bird(80.0,50.0);	
 	vector<Obstacle> obstacles;
 	
-	obstacles.push_back(Obstacle((rand() % HEIGHT/2) + (HEIGHT*0.1)));
+	obstacles.push_back(Obstacle((rand() % (HEIGHT/2)) + (HEIGHT*0.1)));
 
 	
 	while(!WindowShouldClose())
@@ -250,10 +389,14 @@ int main(void)
 			
 			if(timeElapsed > 3)
 			{
-				obstacles.push_back(Obstacle((rand() % HEIGHT/2) + (HEIGHT*0.1)));
+				obstacles.push_back(Obstacle((rand() % (HEIGHT/2)) + (HEIGHT*0.1)));
 				timeElapsed = 0.0;
 			}
-
+			
+			
+			// BIRD:
+	    	
+	    	bird.Update();
 
 	    	// OBSTACLES:	
 	    	
@@ -267,7 +410,7 @@ int main(void)
 	    				score++;
 	    				PlaySound(scoreSound);
 					}
-					if(CheckCollisionRecs(obstacles[i].GetUpperRectangle(), bird.GetRectangle()) || CheckCollisionRecs(obstacles[i].GetLowerRectangle(), bird.GetRectangle()) )
+					if(CheckCollisionRecsZ(obstacles[i].GetUpperRectCoordinates(), bird.GetRectCoordinates()) || CheckCollisionRecsZ(obstacles[i].GetLowerRectCoordinates(), bird.GetRectCoordinates()) || bird.GetRectCoordinates().bottomRight.y >= HEIGHT || bird.GetRectCoordinates().topRight.y <= 0.0)
 					{
 						GameOver = true;	// Game should stop
 					}
@@ -280,9 +423,7 @@ int main(void)
 			}
 	    	
 	    	
-	    	// BIRD:
 	    	
-	    	bird.Update();
 	
 		// ===================================================================================================================
 		// DRAW:
@@ -310,6 +451,7 @@ int main(void)
 	    	
 	    	score_string = to_string(score);    	
 	    	DrawText(score_string.c_str(), WIDTH/2, HEIGHT*0.2, 30, WHITE);
+	    	
     	}
     	else if(!GameShouldStart)		// Game has not started yet
     	{
@@ -324,11 +466,38 @@ int main(void)
 			}
     		
     		
-    		DrawText("Game Over", WIDTH*0.2, HEIGHT*0.2, 80, WHITE);
+    		DrawText("Game Over", WIDTH*0.2, HEIGHT*0.2, 80, RED);
     		
     		string scoreStatement = "Final Score: " + score_string;
     		
     		DrawText(scoreStatement.c_str(), WIDTH*0.15, HEIGHT*0.4, 80, WHITE);
+    		
+    		
+    		
+    		if(score > highScore)
+    		{
+    			highScore = score;
+			}
+			
+			string highScoreStatement = "High Score: " + to_string(highScore);
+    		DrawText(highScoreStatement.c_str(), WIDTH*0.15, HEIGHT*0.6, 80, WHITE);
+    		
+    		DrawText("Press Space To Retry", WIDTH*0.15, HEIGHT*0.8, 80, WHITE);
+    		
+    		if(IsKeyPressed(KEY_SPACE))
+    		{
+    			GameOver = false;
+    			GameShouldStart = true;
+    			GameOverSoundPlayed = false;
+    			
+    			timeElapsed = 0;
+    			score = 0;
+    			
+    			bird.Reset();
+    			obstacles.clear();
+    			
+    			obstacles.push_back(Obstacle((rand() % (HEIGHT/2)) + (HEIGHT*0.1)));
+			}
 		}
     	
     	// ===================================================================================================================
