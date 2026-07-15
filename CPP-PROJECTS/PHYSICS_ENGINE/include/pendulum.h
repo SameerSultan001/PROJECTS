@@ -11,6 +11,7 @@
 #include "circle.h"
 #include "physicsUtilities.h"
 #include "collisionDetection.h"
+#include "constants.h"
 
 // Pendulum Class ============================================================================================================
 
@@ -48,8 +49,6 @@ private:
 	float actualStringLength;			// this is in terms of meters.
 	float stringThickness;				// this is in terms of pixels.
 	Color stringColor;
-	
-	float scaling;						// to scale the pixel version of the string length
 	
 	Vector2 dragOffset;					// used when dragging the pendulum, since we won't always grab it from its center.
 		
