@@ -60,7 +60,7 @@ Pendulum::Pendulum(Vector2 pivotCoordinate, float actualStringLength) : bobRadiu
 	timeElapsed = 0.0f;
 	
 	this->actualStringLength = actualStringLength;
-	stringLength = ConvertMeterToPixel(actualStringLength) * SCALING;
+	stringLength = ConvertMeterToPixel(actualStringLength);
 	stringThickness = 5.0f;
 	stringColor = WHITE;
 	
@@ -151,7 +151,7 @@ void Pendulum::Input(const InputManager& input)
 		timeElapsed = 0.0f;
 		
 		stringLength = Vector2Distance(pivotCoordinate, circle.GetCenter());
-		actualStringLength = ConvertPixelToMeter(stringLength) / SCALING;
+		actualStringLength = ConvertPixelToMeter(stringLength);
 		
 		angle = angleDisplaced;
 		angularVelocity = 0.0;
