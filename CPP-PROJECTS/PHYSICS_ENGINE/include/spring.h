@@ -24,16 +24,12 @@ class Spring
 	
 private:
 	float restLength;				// the resting length of the spring in meters.
-	float restLengthPixel;			// the resting length of the spring in pixels.
 	
 	float currentLength;			// the current length of the spring in meters.
-	float currentLengthPixel;		// the current length of the spring in pixels.
 	
 	float extension;				// the extention of the spring in meters.
-	float extensionPixel;			// the extention of the spring in pixels.
 	
 	float maxLength;				// the max length the spring can extend, in meters. (should this even be a thing to consider?)
-	float maxLengthPixel;			// the max length the spring can extend, in pixels. (should this even be a thing to consider?)
 	
 	float springConstant;			// the spring stiffness in N/m.
 	float dampingCoefficient;

@@ -10,8 +10,7 @@ Spring::Spring()
 
     dampingCoefficient = 0.0f;
 
-    restLength = 1.0f;		// this is 1 meter. size on screen should be 10 cm.
-    restLengthPixel = ConvertMeterToPixel(restLength);	
+    restLength = 1.0f;		// this is 1 meter. size on screen should be 10 cm.	
 }
 
 // Helper Functions ==========================================================================================================
@@ -32,13 +31,12 @@ void Spring::UpdateEndPointVectors()
 void Spring::UpdateCurrentLength()
 {
 	currentLength = Vector2Distance(endACoordinate, endBCoordinate);
-	currentLengthPixel = ConvertMeterToPixel(currentLength);
+	//currentLengthPixel = ConvertMeterToPixel(currentLength);
 }
 
 void Spring::UpdateExtension()
 {
 	extension = currentLength - restLength;
-	extensionPixel = currentLengthPixel - restLengthPixel;
 }
 
 void Spring::UpdateForceOfSpring()
@@ -81,7 +79,6 @@ void Spring::SetParticleB(Particle* newParticleB)
 void Spring::SetRestLength(float newRestLength)
 {
     restLength = newRestLength;
-    restLengthPixel = ConvertMeterToPixel(newRestLength);
 }
 
 void Spring::SetSpringConstant(float newSpringConstant)
