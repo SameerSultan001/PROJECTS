@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "inputManager.h"
+#include "physicsUtilities.h"
 
 // A particle is a point mass
 
@@ -11,13 +12,15 @@ class Particle
 {
 	
 private:
-	Vector2 position;			// the coordinate of the center of the particle
+	Vector2 position;			// the coordinate of the center of the particle, in terms of meters.
 	Vector2 velocity;
 	Vector2 acceleration;
 	
 	Vector2 accumulatedForce;
 	
 	float mass;
+	float radius;				// since particle is a cirle, it has a radius, measured in meters.
+	float radiusPixel;			// measured in pixels.
 	
 	// Helper Functions ======================================================================================================
 	

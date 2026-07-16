@@ -13,7 +13,10 @@ Particle::Particle()
 
     accumulatedForce = {0,0};
 
-    mass = 1.0f;	
+    mass = 1.0f;
+	
+	radius = 0.05f;		// 5 cm is the actual radius. 0.5 cm on screen.
+	radiusPixel = ConvertMeterToPixel(radius);
 }
 
 // Helper Functions ==========================================================================================================
@@ -78,7 +81,12 @@ void Particle::Update(float dt)
 
 void Particle::Draw() const
 {
-	DrawCircleV(position, 12.0f, RED);
+	Vector2 positionPixel;
+	
+	positionPixel.x = ConvertMeterToPixel(position.x);
+	positionPixel.y = ConvertMeterToPixel(position.y);
+	
+	DrawCircleV(positionPixel, radiusPixel, RED);
 }
 
 

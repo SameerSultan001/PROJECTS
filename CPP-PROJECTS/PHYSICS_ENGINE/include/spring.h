@@ -47,8 +47,8 @@ private:
 	Vector2 forceOnParticleA;
 	Vector2 forceOnParticleB;
 	
-	Vector2 endACoordinate;			// a coordinate, in terms of the pixels on the screen. The vector OA.
-	Vector2 endBCoordinate;			// a coordinate, in terms of the pixels on the screen. The vector OB.
+	Vector2 endACoordinate;			// a coordinate, in terms of meters. The vector OA.
+	Vector2 endBCoordinate;			// a coordinate, in terms of meters. The vector OB.
 	
 	// The end point vectors:
 	Vector2 vectorFromAToB;			// the vector AB, equal to AO + OB = OB - OA.

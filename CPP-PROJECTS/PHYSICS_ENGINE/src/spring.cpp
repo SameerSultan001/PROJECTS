@@ -10,7 +10,7 @@ Spring::Spring()
 
     dampingCoefficient = 0.0f;
 
-    restLength = 1.0f;
+    restLength = 1.0f;		// this is 1 meter. size on screen should be 10 cm.
     restLengthPixel = ConvertMeterToPixel(restLength);	
 }
 
@@ -25,14 +25,14 @@ void Spring::UpdateEndPoints()
 
 void Spring::UpdateEndPointVectors()
 {
-	vectorFromAToB = endBCoordinate - endACoordinate;
-	vectorFromBToA = Vector2Negate(vectorFromAToB);
+	vectorFromAToB = endBCoordinate - endACoordinate; // AB = AO + OB = OB - OA
+	vectorFromBToA = Vector2Negate(vectorFromAToB);	// BA = -AB
 }
 
 void Spring::UpdateCurrentLength()
 {
-	currentLengthPixel = Vector2Distance(endACoordinate, endBCoordinate);
-	currentLength = ConvertPixelToMeter(currentLengthPixel);
+	currentLength = Vector2Distance(endACoordinate, endBCoordinate);
+	currentLengthPixel = ConvertMeterToPixel(currentLength);
 }
 
 void Spring::UpdateExtension()
@@ -111,5 +111,15 @@ void Spring::Update(float dt)
 
 void Spring::Draw() const
 {
-	DrawLineEx(particleA->GetPosition(), particleB->GetPosition(), 4.0f, WHITE);
+	Vector2 particleAPixel;
+	Vector2 particleBPixel;
+	
+	particleAPixel.x = ConvertMeterToPixel(endACoordinate.x);
+	particleAPixel.y = ConvertMeterToPixel(endACoordinate.y);
+	
+	particleBPixel.x = ConvertMeterToPixel(endBCoordinate.x);
+	particleBPixel.y = ConvertMeterToPixel(endBCoordinate.y);
+	
+	
+	DrawLineEx(particleAPixel, particleBPixel, 4.0f, WHITE);
 }
