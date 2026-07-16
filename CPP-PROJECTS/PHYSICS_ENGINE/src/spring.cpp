@@ -59,67 +59,67 @@ void Spring::ApplyForceOnParticles()
 
 // Getters ===================================================================================================================
 
-float GetRestLength() const
+float Spring::GetRestLength() const
 {
 	return restLength;
 }
 
-float GetCurrentLength() const
+float Spring::GetCurrentLength() const
 {
 	return currentLength;
 }
 
-float GetExtension() const
+float Spring::GetExtension() const
 {
 	return extension;
 }
 
-float GetMaxLength() const
+float Spring::GetMaxLength() const
 {
 	return maxLength;
 }
 
-float GetSpringConstant() const
+float Spring::GetSpringConstant() const
 {
 	return springConstant;
 }
 
-float GetDampingCoefficient() const
+float Spring::GetDampingCoefficient() const
 {
 	return dampingCoefficient;
 }
 
-float GetForceOfString() const
+float Spring::GetForceOfString() const
 {
-	return forceOfString;
+	return forceOfSpring;
 }
 
-Vector2 GetEndACoordinate() const
+Vector2 Spring::GetEndACoordinate() const
 {
 	return endACoordinate;
 }
 
-Vector2 GetEndBCoordinate() const
+Vector2 Spring::GetEndBCoordinate() const
 {
 	return endBCoordinate;
 }
 
-Vector2 GetForceOnParticleA() const
+Vector2 Spring::GetForceOnParticleA() const
 {
 	return forceOnParticleA;
 }
 
-Vector2 GetForceOnParticleB() const
+Vector2 Spring::GetForceOnParticleB() const
 {
 	return forceOnParticleB;
 }
 
-Vector2 GetVectorFromAToB() const
+Vector2 Spring::GetVectorFromAToB() const
 {
 	return vectorFromAToB;
 }
 
-Vector2 GetVectorFromBToA() const
+Vector2 Spring::GetVectorFromBToA() const
 {
 	return vectorFromBToA;
 }
