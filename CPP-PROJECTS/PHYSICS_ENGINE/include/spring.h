@@ -73,6 +73,24 @@ public:
 	
 	// Getters ===============================================================================================================
 	
+	float GetRestLength() const;
+	float GetCurrentLength() const;
+	float GetExtension() const;
+	float GetMaxLength() const;
+	float GetSpringConstant() const;
+	float GetDampingCoefficient() const;
+	float GetForceOfString() const;
+	
+	Vector2 GetEndACoordinate() const;
+	Vector2 GetEndBCoordinate() const;
+	
+	Vector2 GetForceOnParticleA() const;
+	Vector2 GetForceOnParticleB() const;
+	
+	Vector2 GetVectorFromAToB() const;
+	Vector2 GetVectorFromBToA() const;
+	
+	
 	
 	// Setters ===============================================================================================================
 	

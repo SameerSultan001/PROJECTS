@@ -57,6 +57,73 @@ void Spring::ApplyForceOnParticles()
 }
 
 
+// Getters ===================================================================================================================
+
+float GetRestLength() const
+{
+	return restLength;
+}
+
+float GetCurrentLength() const
+{
+	return currentLength;
+}
+
+float GetExtension() const
+{
+	return extension;
+}
+
+float GetMaxLength() const
+{
+	return maxLength;
+}
+
+float GetSpringConstant() const
+{
+	return springConstant;
+}
+
+float GetDampingCoefficient() const
+{
+	return dampingCoefficient;
+}
+
+float GetForceOfString() const
+{
+	return forceOfString;
+}
+
+Vector2 GetEndACoordinate() const
+{
+	return endACoordinate;
+}
+
+Vector2 GetEndBCoordinate() const
+{
+	return endBCoordinate;
+}
+
+Vector2 GetForceOnParticleA() const
+{
+	return forceOnParticleA;
+}
+
+Vector2 GetForceOnParticleB() const
+{
+	return forceOnParticleB;
+}
+
+Vector2 GetVectorFromAToB() const
+{
+	return vectorFromAToB;
+}
+
+Vector2 GetVectorFromBToA() const
+{
+	return vectorFromBToA;
+}
+
 
 // Setters ===================================================================================================================
 
