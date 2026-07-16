@@ -5,6 +5,7 @@
 #include "raymath.h"
 #include "inputManager.h"
 #include "physicsUtilities.h"
+#include "constants.h"
 
 // A particle is a point mass
 
@@ -22,11 +23,14 @@ private:
 	float radius;				// since particle is a cirle, it has a radius, measured in meters.
 	float radiusPixel;			// measured in pixels.
 	
+	bool isGravityOn;
+	
 	// Helper Functions ======================================================================================================
 	
 	void UpdateAcceleration();
 	void UpdateVelocity(float dt);
 	void UpdatePosition(float dt);
+	void ApplyGravity();
 	void ClearForces();
 	
 public:
@@ -47,6 +51,10 @@ public:
 	void SetPosition(Vector2 newPosition);
 	void SetVelocity(Vector2 newVelocity);
 	void SetAcceleration(Vector2 newAcceleration);
+	
+	void SetMass(float newMass);
+	
+	void SetGravityStatus(bool status);
 	
 	void ApplyForce(Vector2 force);
 	

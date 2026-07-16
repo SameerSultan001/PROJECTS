@@ -178,11 +178,11 @@ void Spring::Draw() const
 	Vector2 particleAPixel;
 	Vector2 particleBPixel;
 	
-	particleAPixel.x = ConvertMeterToPixel(endACoordinate.x);
-	particleAPixel.y = ConvertMeterToPixel(endACoordinate.y);
+	particleAPixel.x = ConvertMeterToPixel(particleA->GetPosition().x);
+	particleAPixel.y = ConvertMeterToPixel(particleA->GetPosition().y);
 	
-	particleBPixel.x = ConvertMeterToPixel(endBCoordinate.x);
-	particleBPixel.y = ConvertMeterToPixel(endBCoordinate.y);
+	particleBPixel.x = ConvertMeterToPixel(particleB->GetPosition().x);
+	particleBPixel.y = ConvertMeterToPixel(particleB->GetPosition().y);
 	
 	
 	DrawLineEx(particleAPixel, particleBPixel, 4.0f, WHITE);

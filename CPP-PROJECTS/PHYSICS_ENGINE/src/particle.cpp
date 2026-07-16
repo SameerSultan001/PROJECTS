@@ -17,6 +17,8 @@ Particle::Particle()
 	
 	radius = 0.05f;		// 5 cm is the actual radius. 0.5 cm on screen.
 	radiusPixel = ConvertMeterToPixel(radius);
+	
+	isGravityOn = false;
 }
 
 // Helper Functions ==========================================================================================================
@@ -35,6 +37,11 @@ void Particle::UpdateVelocity(float dt)
 void Particle::UpdatePosition(float dt)
 {
 	position += velocity * dt;
+}
+
+void Particle::ApplyGravity()
+{
+	ApplyForce({0, GRAVITY * mass});
 }
 
 void Particle::ClearForces()
@@ -58,6 +65,11 @@ void Particle::SetVelocity(Vector2 newVelocity) { velocity = newVelocity; }
 
 void Particle::SetAcceleration(Vector2 newAcceleration) { acceleration = newAcceleration; }
 
+void Particle::SetMass(float newMass) { mass = newMass; }
+
+void Particle::SetGravityStatus(bool status) { isGravityOn = status; }
+
+
 void Particle::ApplyForce(Vector2 force) { accumulatedForce += force; }
 
 
@@ -73,9 +85,15 @@ void Particle::Input(const InputManager& input)
 
 void Particle::Update(float dt)
 {
+	if(isGravityOn)
+	{
+		ApplyGravity();
+	}
+	
 	UpdateAcceleration();
 	UpdateVelocity(dt);
 	UpdatePosition(dt);
+	
 	ClearForces();
 }
 
