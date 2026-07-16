@@ -23,8 +23,8 @@ void Pendulum::UpdateBobPosition()
 {
 	Vector2 newCenter;
 	
-	newCenter.x = pivotCoordinate.x + (stringLength*sin(angle));
-	newCenter.y = pivotCoordinate.y + (stringLength*cos(angle));
+	newCenter.x = pivotCoordinate.x + (stringLengthPixel*sin(angle));
+	newCenter.y = pivotCoordinate.y + (stringLengthPixel*cos(angle));
 	
 	circle.SetCenter(newCenter);		
 }
@@ -60,8 +60,8 @@ Pendulum::Pendulum(Vector2 pivotCoordinate, float actualStringLength) : bobRadiu
 	timeElapsed = 0.0f;
 	
 	this->actualStringLength = actualStringLength;
-	stringLength = ConvertMeterToPixel(actualStringLength);
-	stringThickness = 5.0f;
+	stringLengthPixel = ConvertMeterToPixel(actualStringLength);
+	stringThicknessPixel = 5.0f;
 	stringColor = WHITE;
 	
 	mass = 1.0f;	
@@ -77,6 +77,9 @@ Pendulum::Pendulum(Vector2 pivotCoordinate, float actualStringLength) : bobRadiu
 
 // Setters ===================================================================================================================
 
+
+// DISPLAY:
+
 void Pendulum::SetDisplayStatus(bool status)
 {
 	displayStatus = status;
@@ -89,10 +92,46 @@ void Pendulum::SetDisplayInfo(Vector2 coordinate, float fontSize, Color color)
 	displayFontColor = color;
 }
 
+
+// PAUSE:
+void Pendulum::SetPauseStatus(bool status)
+{
+	pause = status;
+}
+
+
+// PENDULUM END POINTS:
+
 void Pendulum::SetPivotCoordinate(Vector2 newPivotCoordinate)
 {
 	pivotCoordinate = newPivotCoordinate;
 }
+
+void Pendulum::SetBobCenterCoordinate(Vector2 newBobCenterCoordinate)
+{
+	circle.SetCenter(newBobCenterCoordinate);
+	
+	float dx = circle.GetCenter().x - pivotCoordinate.x;
+	float dy = circle.GetCenter().y - pivotCoordinate.y;
+	
+	angleDisplaced = atan2(dx, dy);
+	
+	timeElapsed = 0.0f;
+	
+	stringLengthPixel = Vector2Distance(pivotCoordinate, circle.GetCenter());
+	actualStringLength = ConvertPixelToMeter(stringLengthPixel);
+	
+	angle = angleDisplaced;
+	angularVelocity = 0.0;
+	
+	if(displayStatus)
+	{
+		UpdateEnergy();
+	}	
+}
+
+
+// BOB'S APPEARANCE:
 
 void Pendulum::SetBobInfo(float newRadius, Color newColor)
 {
@@ -102,14 +141,44 @@ void Pendulum::SetBobInfo(float newRadius, Color newColor)
 	circle.SetColor(newColor);
 }
 
+
+// BOB'S MASS:
+
 void Pendulum::SetMass(float newMass)
 {
 	mass = newMass;
+	
+	if(displayStatus)
+	{
+		UpdateEnergy();
+	}
 }
+
+
+// DAMPING COEFFECIENT:
 
 void Pendulum::SetDampingCoeffecient(float newDampingCoeffecient)
 {
 	dampingCoeffecient = newDampingCoeffecient;
+}
+
+
+// STRING PROPERTIES:
+
+void Pendulum::SetStringLength(float actualStringLength)
+{
+	this->actualStringLength = actualStringLength;
+	stringLengthPixel = ConvertMeterToPixel(actualStringLength);
+}
+
+void Pendulum::SetStringColor(Color color)
+{
+	stringColor = color;
+}
+
+void Pendulum::SetStringThickness(float actualStringThickness)
+{
+	stringThicknessPixel = ConvertMeterToPixel(actualStringThickness);
 }
 
 
@@ -141,25 +210,7 @@ void Pendulum::Input(const InputManager& input)
 	}
 	if(dragging)
 	{
-		circle.SetCenter(input.GetMousePosition() - dragOffset);
-		
-		float dx = circle.GetCenter().x - pivotCoordinate.x;
-		float dy = circle.GetCenter().y - pivotCoordinate.y;
-		
-		angleDisplaced = atan2(dx, dy);
-		
-		timeElapsed = 0.0f;
-		
-		stringLength = Vector2Distance(pivotCoordinate, circle.GetCenter());
-		actualStringLength = ConvertPixelToMeter(stringLength);
-		
-		angle = angleDisplaced;
-		angularVelocity = 0.0;
-		
-		if(displayStatus)
-		{
-			UpdateEnergy();
-		}
+		SetBobCenterCoordinate(input.GetMousePosition() - dragOffset);	
 	}				
 }
 
@@ -183,7 +234,7 @@ void Pendulum::Update(float dt)
 // Draw:
 void Pendulum::Draw() const
 {
-	DrawLineEx(pivotCoordinate, circle.GetCenter(), stringThickness, stringColor); 
+	DrawLineEx(pivotCoordinate, circle.GetCenter(), stringThicknessPixel, stringColor); 
 	
 	circle.Draw();		// the bob
 	

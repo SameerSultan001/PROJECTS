@@ -13,6 +13,7 @@ private:
 	
 	float mass;
 public:
+	Particle();
 	
 	Vector2 GetPosition() const;
 	

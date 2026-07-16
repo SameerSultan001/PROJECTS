@@ -27,8 +27,8 @@ private:
 	Circle circle;						// representing the pendulum bob.
 	
 	
-	float angularAcceleration;			// how fast the angular velocity changes with respect to time.
-	float angularVelocity;				// how fast the angle of the pendulum, with the vertical, changes with respect to time.
+	float angularAcceleration;			// how fast the angular velocity changes with respect to time, in m/s^(2).
+	float angularVelocity;				// how fast the angle of the pendulum, with the vertical, changes with respect to time, in m/s.
 		
 	float angle;						// of the string, with the vertical, in radians.
 	float angleDisplaced;				// angle that the string makes after it has been dragged to a certain point (initial angle).
@@ -37,17 +37,17 @@ private:
 	
 	float dampingCoeffecient; 			// how much resistance the pendulum faces in its motion.
 	
-	float potentialEnergy;
-	float kineticEnergy;
-	float totalEnergy;					// K.E + P.E
+	float potentialEnergy;				// in Joules.
+	float kineticEnergy;				// in Joules.
+	float totalEnergy;					// K.E + P.E (in Joules).
 		
-	float timeElapsed;					// total time since the pendulum has been released from initial position.
+	float timeElapsed;					// total time, in seconds, since the pendulum has been released from its initial position.
 	
 	
 	
-	float stringLength;					// this is the length of the string in term of pixels.
+	float stringLengthPixel;			// this is the length of the string in term of pixels.
 	float actualStringLength;			// this is in terms of meters.
-	float stringThickness;				// this is in terms of pixels.
+	float stringThicknessPixel;			// this is in terms of pixels.
 	Color stringColor;
 	
 	Vector2 dragOffset;					// used when dragging the pendulum, since we won't always grab it from its center.
@@ -76,17 +76,30 @@ public:
 	
 	// Setters ===============================================================================================================
 	
-	void SetDisplayStatus(bool status);
-	
+	// DISPLAY:
+	void SetDisplayStatus(bool status);	
 	void SetDisplayInfo(Vector2 coordinate, float fontSize, Color color);
 	
-	void SetPivotCoordinate(Vector2 newPivotCoordinate);
+	// PAUSE:
+	void SetPauseStatus(bool status);
 	
+	// PENDULUM END POINTS:
+	void SetPivotCoordinate(Vector2 newPivotCoordinate);	
+	void SetBobCenterCoordinate(Vector2 newBobCenterCoordinate);
+	
+	// BOB'S APPEARANCE:
 	void SetBobInfo(float newRadius, Color newColor);
 	
+	// BOB'S MASS:
 	void SetMass(float newMass);
 	
+	// DAMPING COEFFECIENT:
 	void SetDampingCoeffecient(float newDampingCoeffecient);
+	
+	// STRING PROPERTIES:
+	void SetStringLength(float actualStringLength);
+	void SetStringColor(Color color);	
+	void SetStringThickness(float actualStringThickness);
 
 	
 	// Getters ===============================================================================================================

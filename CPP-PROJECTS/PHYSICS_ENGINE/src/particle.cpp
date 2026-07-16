@@ -8,6 +8,6 @@ Particle::Particle()
 	
 }
 
-Particle::GetPosition() const { return position; }
+Vector2 Particle::GetPosition() const { return position; }
 
 
