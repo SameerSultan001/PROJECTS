@@ -28,24 +28,27 @@ int main()
     Spring spring3;
 
     spring.SetParticles(&particleA, &particleB);
-    spring.SetRestLength(1.0f);
+    spring.SetRestLength(1.2f);
+    spring.SetSpringConstant(10000.0f);
 
     spring2.SetParticles(&particleB, &particleC);
-    spring2.SetRestLength(1.0f);
+    spring2.SetRestLength(1.6f);
+    spring2.SetSpringConstant(10000.0f);
 
     spring3.SetParticles(&particleC, &particleA);
-    spring3.SetRestLength(1.0f);
+    spring3.SetRestLength(2.0f);
+    spring3.SetSpringConstant(10000.0f);
 
-    spring.SetTensionOnlySpring(true);
-    spring2.SetTensionOnlySpring(true);
-    spring3.SetTensionOnlySpring(true);
+    //spring.SetTensionOnlySpring(true);
+    //spring2.SetTensionOnlySpring(true);
+    //spring3.SetTensionOnlySpring(true);
 
     //-------------------------
     // Particle A
     //-------------------------
 
-    particleA.SetPosition({0.10f, 0.60f});
-    particleA.SetVelocity({0.1f, 0.00f});
+    particleA.SetPosition({0.1f, 0.1f});
+    particleA.SetVelocity({0.1f, 0.0f});
 
     particleA.SetMass(4.0f);
     particleA.SetRadius(0.03f);
@@ -53,11 +56,12 @@ int main()
     particleA.SetColor(RED);
     particleA.SetRestitution(1.0f);
 
+
     //-------------------------
     // Particle B
     //-------------------------
 
-    particleB.SetPosition({2.90f, 0.60f});
+    particleB.SetPosition({0.1f, 1.3f});
     //particleB.SetVelocity({-0.25f, 0.00f});
 
     particleB.SetMass(4.0f);
@@ -66,17 +70,19 @@ int main()
     particleB.SetColor(BLUE);
     particleB.SetRestitution(1.0f);
 
+
     //-------------------------
     // Particle C
     //-------------------------
 
-    particleC.SetPosition({1.50f, 0.20f});
+    particleC.SetPosition({1.7f, 1.3f});
 
     particleC.SetMass(4.0f);
     particleC.SetRadius(0.03f);
 
     particleC.SetColor(YELLOW);
     particleC.SetRestitution(1.0f);
+
 
     Vector2 centerOfMass = FindCenterOfMass(particleA.GetPosition(), particleA.GetMass(), particleB.GetPosition(), particleB.GetMass(), particleC.GetPosition(), particleC.GetMass());
     Vector2 centerOfMassPixel = {ConvertMeterToPixel(centerOfMass.x), ConvertMeterToPixel(centerOfMass.y)};
@@ -99,24 +105,31 @@ int main()
         //----------------------------------
         // Physics
         //----------------------------------
+
+        const int substeps = 16;
+        float subDt = dt / substeps;
+        
         if(!pause)
         {
-            spring.Update(dt);
-            spring2.Update(dt);
-            spring3.Update(dt);
-            particleA.Update(dt);
-            particleB.Update(dt);
-            particleC.Update(dt);
-            ResolveCollision(particleA, particleB);
-            ResolveCollision(particleA, particleC);
-            ResolveCollision(particleB, particleC);
+            for(int i = 0; i < substeps; i++)
+            {
+                spring.Update(subDt);
+                spring2.Update(subDt);
+                spring3.Update(subDt);
+                particleA.Update(subDt);
+                particleB.Update(subDt);
+                particleC.Update(subDt);
+                ResolveCollision(particleA, particleB);
+                ResolveCollision(particleA, particleC);
+                ResolveCollision(particleB, particleC);
+            }
 
             centerOfMass = FindCenterOfMass(particleA.GetPosition(), particleA.GetMass(), particleB.GetPosition(), particleB.GetMass(), particleC.GetPosition(), particleC.GetMass());
 
             centerOfMassPixel.x = ConvertMeterToPixel(centerOfMass.x);
             centerOfMassPixel.y = ConvertMeterToPixel(centerOfMass.y);
 
-            centerHistory.push_back(centerOfMass);
+            centerHistory.push_back(centerOfMass);           
         }
         //----------------------------------
         // Drawing

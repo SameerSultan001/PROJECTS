@@ -11,6 +11,8 @@ Spring::Spring()
     dampingCoefficient = 0.0f;
 
     restLength = 1.0f;		// this is 1 meter. size on screen should be 10 cm.	
+
+	tensionOnlySpring = false;
 }
 
 // Helper Functions ==========================================================================================================
@@ -56,7 +58,7 @@ void Spring::ApplyForceOnParticles()
 	{
 		return;
 	}
-	
+
 	particleA->ApplyForce(forceOnParticleA);
 	particleB->ApplyForce(forceOnParticleB);
 }
