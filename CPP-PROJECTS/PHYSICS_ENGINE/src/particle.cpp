@@ -86,7 +86,7 @@ void Particle::SetRadius(float newRadius)
 
 void Particle::SetColor(Color newColor) { color = newColor; }
 
-void Particle::SetRestitution(float newRestitution) { restitution = newRestitution }
+void Particle::SetRestitution(float newRestitution) { restitution = newRestitution; }
 
 void Particle::SetGravityStatus(bool status) { isGravityOn = status; }
 
@@ -128,7 +128,7 @@ void Particle::Draw() const
 	positionPixel.x = ConvertMeterToPixel(position.x);
 	positionPixel.y = ConvertMeterToPixel(position.y);
 	
-	DrawCircleV(positionPixel, radiusPixel, RED);
+	DrawCircleV(positionPixel, radiusPixel, color);
 }
 
 

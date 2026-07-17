@@ -38,6 +38,8 @@ private:
 	
 	Particle* particleA;			// convention is that this is the particle on the right of the spring (atleast, initially).
 	Particle* particleB;			// convention is that this is the particle on the left of the spring (atleast, initially).
+
+	bool tensionOnlySpring;			// would ignore compression, but not extension.
 	
 	// The force on particles exerted by the spring:
 	Vector2 forceOnParticleA;
@@ -102,6 +104,8 @@ public:
 	
 	void SetSpringConstant(float newSpringConstant);
 	void SetDampingCoefficient(float newDampingCoefficient);
+
+	void SetTensionOnlySpring(bool status);
 	
 	// Base Functions ========================================================================================================
 	

@@ -52,6 +52,11 @@ void Spring::UpdateForceOnParticles()
 
 void Spring::ApplyForceOnParticles()
 {
+	if(tensionOnlySpring && extension < 0.0f)
+	{
+		return;
+	}
+	
 	particleA->ApplyForce(forceOnParticleA);
 	particleB->ApplyForce(forceOnParticleB);
 }
@@ -156,6 +161,11 @@ void Spring::SetSpringConstant(float newSpringConstant)
 void Spring::SetDampingCoefficient(float newDampingCoefficient)
 {
     dampingCoefficient = newDampingCoefficient;
+}
+
+void Spring::SetTensionOnlySpring(bool status)
+{
+	tensionOnlySpring = status;
 }
 
 // Base Functions ============================================================================================================
