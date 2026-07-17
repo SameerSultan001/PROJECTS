@@ -13,12 +13,13 @@ Particle::Particle()
 
     accumulatedForce = {0,0};
 
-    mass = 1.0f;
+    mass = 1.0f;								// in kg.
 	
-	radius = 0.05f;		// 5 cm is the actual radius. 0.5 cm on screen.
-	radiusPixel = ConvertMeterToPixel(radius);
+	radius = 0.05f;								// 0.05 meters = 5 cm is the actual radius.
+	radiusPixel = ConvertMeterToPixel(radius);	// 0.5 cm on screen.
+	color = RED;
 	
-	isGravityOn = false;
+	isGravityOn = false;	
 }
 
 // Helper Functions ==========================================================================================================
@@ -56,6 +57,16 @@ Vector2 Particle::GetVelocity() const { return velocity; }
 Vector2 Particle::GetAcceleration() const { return acceleration; }
 Vector2 Particle::GetAccumulatedForce() const { return accumulatedForce; }
 
+float Particle::GetMass() const { return mass; }
+float Particle::GetRadius() const { return radius; }
+
+float Particle::GetRestitution() const { return restitution; }
+
+Circle Particle::GetCircle() const
+{
+	return Circle(position, radius, color);
+}
+
 
 // Setters ===================================================================================================================
 
@@ -67,22 +78,33 @@ void Particle::SetAcceleration(Vector2 newAcceleration) { acceleration = newAcce
 
 void Particle::SetMass(float newMass) { mass = newMass; }
 
+void Particle::SetRadius(float newRadius) 
+{ 
+	radius = newRadius;
+	radiusPixel = ConvertMeterToPixel(newRadius);
+}
+
+void Particle::SetColor(Color newColor) { color = newColor; }
+
+void Particle::SetRestitution(float newRestitution) { restitution = newRestitution }
+
 void Particle::SetGravityStatus(bool status) { isGravityOn = status; }
 
 
-void Particle::ApplyForce(Vector2 force) { accumulatedForce += force; }
+void Particle::ApplyForce(Vector2 forceVector) { accumulatedForce += forceVector; }
 
 
 
 // Base Functions ============================================================================================================
 
-
+// Input:
 void Particle::Input(const InputManager& input)
 {
 	
 }
 
 
+// Update: Responsible for updating the physical quantities of the particle by applying the accumulated force through updating acceleration, velocity, and position.
 void Particle::Update(float dt)
 {
 	if(isGravityOn)
@@ -97,6 +119,8 @@ void Particle::Update(float dt)
 	ClearForces();
 }
 
+
+// Draw: Draws the particle as a circle of a particular radius.
 void Particle::Draw() const
 {
 	Vector2 positionPixel;
