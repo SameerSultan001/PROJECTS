@@ -6,13 +6,27 @@ Spring::Spring()
     particleA = nullptr;
     particleB = nullptr;
 
-    springConstant = 15.0f;
+    restLength = 1.0f;		// this is 1 meter. size on screen should be 10 cm.	
+	currentLength = restLength;
+	extension = 0.0f;
 
+	//maxLength = 1000000;
+
+    springConstant = 15.0f;
     dampingCoefficient = 0.0f;
 
-    restLength = 1.0f;		// this is 1 meter. size on screen should be 10 cm.	
+	forceOfSpring = 0.0f;	// no force currently being produced.
 
 	tensionOnlySpring = false;
+
+	forceOnParticleA = {0.0f, 0.0f};
+	forceOnParticleB = {0.0f, 0.0f};
+
+	endACoordinate = {0.0f, 0.0f};
+	endBCoordinate = {0.0f, 0.0f};
+
+	vectorFromAToB = {0.0f, 0.0f};
+	vectorFromBToA = {0.0f, 0.0f};
 }
 
 // Helper Functions ==========================================================================================================

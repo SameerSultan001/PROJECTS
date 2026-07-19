@@ -42,10 +42,10 @@ private:
 	bool tensionOnlySpring;			// would ignore compression, but not extension.
 	
 	// The force on particles exerted by the spring:
-	Vector2 forceOnParticleA;
-	Vector2 forceOnParticleB;
+	Vector2 forceOnParticleA;		// a vector of force.
+	Vector2 forceOnParticleB;		// a vector of force.
 	
-	Vector2 endACoordinate;			// a coordinate, in terms of meters. The vector OA.
+	Vector2 endACoordinate;			// a coordinate, in terms of meters. The vector OA. 
 	Vector2 endBCoordinate;			// a coordinate, in terms of meters. The vector OB.
 	
 	// The end point vectors:
